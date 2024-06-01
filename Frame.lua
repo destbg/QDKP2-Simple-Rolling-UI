@@ -1,6 +1,6 @@
 -- UI frame for the addon
 UIConfig = CreateFrame('Frame', 'BCP_UI', UIParent, 'BackdropTemplate')
-UIConfig:SetSize(280, 62)
+UIConfig:SetSize(300, 62)
 UIConfig:SetPoint('CENTER')
 UIConfig:RegisterForDrag('LeftButton')
 UIConfig:SetBackdrop(BACKDROP_TUTORIAL_16_16)
@@ -65,7 +65,7 @@ betButton:RegisterForClicks('LeftButtonUp')
 betButton:SetNormalTexture('Interface\\Minimap\\MiniMap-QuestArrow.PNG')
 betButton:SetScript('OnClick', function(self)
     local rounded = math.floor(RollInfo.bet / 10) * 10
-    SendChatMessage(rounded + 10, 'RAID')
+    SendChatMessage(tostring(rounded + 10), 'RAID')
 end)
 
 -- Pass button
@@ -76,8 +76,7 @@ passButton:SetPoint('RIGHT', UIConfig, 'RIGHT', -20, 0)
 passButton:RegisterForClicks('LeftButtonUp')
 passButton:SetNormalTexture('Interface\\Buttons\\UI-GroupLoot-Pass-Up.PNG')
 passButton:SetScript('OnClick', function(self)
-    local realmName = GetNormalizedRealmName();
-    local name = GetUnitName('player', true) .. '-' .. realmName
+    local name = GetCharacterFullName()
 
     if RollInfo.bets[name] == RollInfo.bet and RollInfo.bet ~= 0 then
         print('Can\'t pass when you are the highest bit')

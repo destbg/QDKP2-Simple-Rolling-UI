@@ -7,3 +7,8 @@ function HasValue(tab, val)
 
     return false
 end
+
+function GetCharacterFullName()
+    local realmName = GetNormalizedRealmName();
+    return GetUnitName('player', true) .. '-' .. realmName
+end
