@@ -1,6 +1,6 @@
 ## Interface: 40400
 ## Title: DKP2 Simple rolling UI
-## Notes: A simple UI for DKP2 loot system
+## Notes: A simple rolling UI for DKP2 loot system
 ## Author: destbg
 ## Version: 1.0
 
