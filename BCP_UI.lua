@@ -4,7 +4,7 @@ local function recievedItemInfo(item)
     local itemClass = select(6, C_Item.GetItemInfo(item))
     local itemSubclass = select(7, C_Item.GetItemInfo(item))
 
-    local class = select(1, UnitClass('player'))
+    local class = string.gsub(select(1, UnitClass('player')), ' ', '')
 
     if HasValue(Wearables, itemSubclass) and ClassWearables[class] ~= itemSubclass then
         return
