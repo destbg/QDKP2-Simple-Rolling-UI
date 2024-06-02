@@ -16,7 +16,6 @@ local function isItemUsable(itemID)
         if line and line:GetText() then
             local text = line:GetText()
             local problem = false
-            print(text)
 
             if text:match(alreadyKnownText) then
                 local r, g, b = line:GetTextColor()
