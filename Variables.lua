@@ -1,4 +1,18 @@
+AddonVersion = '1.0'
+
 WaitingForItem = false
+
+NonSpecialSubclasses = {
+    'Other',
+    'Junk'
+}
+
+InventoryTypeClasses = {
+    INVTYPE_TRINKET = 'Trinket',
+    INVTYPE_NECK = 'Neck',
+    INVTYPE_CLOAK = 'Cloak',
+    INVTYPE_FINGER = 'Finger'
+}
 
 RollInfo = {
     isRolling = false,
