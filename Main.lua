@@ -31,6 +31,16 @@ local function onAddonLoaded(addonName)
     end
 end
 
+local function onLeaveCombat()
+    local isShown = UIConfig.IsShown(UIConfig)
+
+    if RollInfo.isRolling and not isShown then
+        UIConfig:Show()
+    elseif not RollInfo.isRolling and isShown then
+        UIConfig:Hide()
+    end
+end
+
 local function onRaidChatMessage(msg, sender)
     if string.match(msg, '^Rolling for .+ started.') then
         RollingStarted(msg, sender)
@@ -58,6 +68,8 @@ local function OnEvent(_, event, ...)
         onItemLoad(...)
     elseif event == 'ADDON_LOADED' then
         onAddonLoaded(...)
+    elseif event == 'PLAYER_REGEN_ENABLED' then
+        onLeaveCombat()
     else
         onRaidChatMessage(...)
     end
@@ -96,6 +108,7 @@ f:RegisterEvent('CHAT_MSG_RAID_WARNING')
 f:RegisterEvent('CHAT_MSG_RAID')
 f:RegisterEvent('CHAT_MSG_ADDON')
 f:RegisterEvent('ADDON_LOADED')
+f:RegisterEvent('PLAYER_REGEN_ENABLED')
 f:SetScript('OnEvent', OnEvent)
 
 SlashCmdList['QDKP2ROLL'] = SlashCmdHandler
