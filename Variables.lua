@@ -1,3 +1,5 @@
+WaitingForItem = false
+
 RollInfo = {
     isRolling = false,
     user = nil,

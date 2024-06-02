@@ -7,4 +7,5 @@
 Variables.lua
 Helpers.lua
 Frame.lua
+Common.lua
 Main.lua

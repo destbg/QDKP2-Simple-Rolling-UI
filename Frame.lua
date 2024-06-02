@@ -76,14 +76,12 @@ passButton:SetPoint('RIGHT', UIConfig, 'RIGHT', -20, 0)
 passButton:RegisterForClicks('LeftButtonUp')
 passButton:SetNormalTexture('Interface\\Buttons\\UI-GroupLoot-Pass-Up.PNG')
 passButton:SetScript('OnClick', function(self)
-    local name = GetCharacterFullName()
-
-    if RollInfo.bets[name] == RollInfo.bet and RollInfo.bet ~= 0 then
+    if RollInfo.bets[CharacterFullName] == RollInfo.bet and RollInfo.bet ~= 0 then
         print('Can\'t pass when you are the highest bit')
         return
     end
 
-    if RollInfo.bets[name] then
+    if RollInfo.bets[CharacterFullName] then
         SendChatMessage('pass', 'RAID')
     end
 
