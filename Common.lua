@@ -105,12 +105,12 @@ function RollingEnded(isWin)
     end
 
     if isWin then
-        QDKP2SimpleRollingUIDB.wins = QDKP2SimpleRollingUIDB.wins + 1
+        QDKP2SimpleRollingUIDB.wins = (QDKP2SimpleRollingUIDB.wins or 0) + 1
     else
         if RollInfo.bets[CharacterFullName] == nil then
-            QDKP2SimpleRollingUIDB.passes = QDKP2SimpleRollingUIDB.passes + 1
+            QDKP2SimpleRollingUIDB.passes = (QDKP2SimpleRollingUIDB.passes or 0) + 1
         else
-            QDKP2SimpleRollingUIDB.losses = QDKP2SimpleRollingUIDB.losses + 1
+            QDKP2SimpleRollingUIDB.losses = (QDKP2SimpleRollingUIDB.losses or 0) + 1
         end
     end
 

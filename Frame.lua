@@ -1,5 +1,5 @@
 -- UI frame for the addon
-UIConfig = CreateFrame('Frame', 'BCP_UI', UIParent, 'BackdropTemplate')
+UIConfig = CreateFrame('Frame', nil, UIParent, 'BackdropTemplate')
 UIConfig:SetSize(300, 62)
 UIConfig:SetPoint('RIGHT', -100, 100)
 UIConfig:RegisterForDrag('LeftButton')

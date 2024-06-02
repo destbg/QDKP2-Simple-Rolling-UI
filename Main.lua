@@ -1,10 +1,16 @@
 SLASH_QDKP2ROLL1 = '/qdkp2roll'
 
-local function onAddonMessage(msg, _, sender)
+local function onAddonMessage(addonName, msg, _, sender)
+    if addonName ~= 'QDKP2SRUI' then
+        return
+    end
+
     if (msg == 'version') then
         C_ChatInfo.SendAddonMessage('QDKP2SRUI', AddonVersion, 'RAID')
     elseif (msg:match('^[0-9.]+$')) then
-        print(sender .. ' has version ' .. msg)
+        local index = string.find(sender, '-')
+        local char = string.sub(sender, 1, index - 1)
+        print(char .. ' has version ' .. msg)
     end
 end
 
@@ -26,7 +32,7 @@ local function onAddonLoaded(addonName)
 end
 
 local function onRaidChatMessage(msg, sender)
-    if string.match(msg, '^Rolling for') then
+    if string.match(msg, '^Rolling for .+ started.') then
         RollingStarted(msg, sender)
     elseif RollInfo.isRolling then
         if string.match(msg, '^[0-9]+$') then
@@ -46,7 +52,7 @@ local function onRaidChatMessage(msg, sender)
 end
 
 local function OnEvent(_, event, ...)
-    if event == 'CHAT_MSG_ADDON_LOGGED' then
+    if event == 'CHAT_MSG_ADDON' then
         onAddonMessage(...)
     elseif event == 'ITEM_DATA_LOAD_RESULT' then
         onItemLoad(...)
@@ -57,7 +63,7 @@ local function OnEvent(_, event, ...)
     end
 end
 
-local function SlashCmdHandler(msg)
+local function SlashCmdHandler(msg, ...)
     if (string.len(msg) == 0) then
         print('Commands available:')
         print('/qdkp2roll version (checks the addon version of all raid or party members)')
@@ -66,6 +72,7 @@ local function SlashCmdHandler(msg)
         print('/qdkp2roll reset position (resets the position of the UI frame)')
         return
     elseif msg == 'version' then
+        print('Versions:')
         C_ChatInfo.SendAddonMessage('QDKP2SRUI', 'version', 'RAID')
     elseif msg == 'record' then
         print('Wins: ' .. (QDKP2SimpleRollingUIDB.wins or 0))
@@ -87,7 +94,7 @@ f:RegisterEvent('ITEM_DATA_LOAD_RESULT')
 f:RegisterEvent('CHAT_MSG_RAID_LEADER')
 f:RegisterEvent('CHAT_MSG_RAID_WARNING')
 f:RegisterEvent('CHAT_MSG_RAID')
-f:RegisterEvent('CHAT_MSG_ADDON_LOGGED')
+f:RegisterEvent('CHAT_MSG_ADDON')
 f:RegisterEvent('ADDON_LOADED')
 f:SetScript('OnEvent', OnEvent)
 
