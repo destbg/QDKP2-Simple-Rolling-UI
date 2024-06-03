@@ -21,6 +21,14 @@ local function onItemLoad(msg)
     end
 end
 
+local function onGroupRoasterUpdate()
+    if UnitInRaid() and not UIConfig:IsShown() then
+        UIConfig:Show()
+    elseif not UnitInRaid() and UIConfig:IsShown() then
+        UIConfig:Hide()
+    end
+end
+
 local function onAddonLoaded(addonName)
     if addonName == 'QDKP2-Simple-Rolling-UI' then
         QDKP2SimpleRollingUIDB = QDKP2SimpleRollingUIDB or {
@@ -28,16 +36,10 @@ local function onAddonLoaded(addonName)
             losses = 0,
             passes = 0
         }
-    end
-end
 
-local function onLeaveCombat()
-    local isShown = UIConfig.IsShown(UIConfig)
-
-    if RollInfo.isRolling and not isShown then
-        UIConfig:Show()
-    elseif not RollInfo.isRolling and isShown then
-        UIConfig:Hide()
+        if UnitInRaid() and not UIConfig:IsShown() then
+            UIConfig:Show()
+        end
     end
 end
 
@@ -66,10 +68,10 @@ local function OnEvent(_, event, ...)
         onAddonMessage(...)
     elseif event == 'ITEM_DATA_LOAD_RESULT' then
         onItemLoad(...)
+    elseif event == 'GROUP_ROSTER_UPDATE' then
+        onGroupRoasterUpdate()
     elseif event == 'ADDON_LOADED' then
         onAddonLoaded(...)
-    elseif event == 'PLAYER_REGEN_ENABLED' then
-        onLeaveCombat()
     else
         onRaidChatMessage(...)
     end
@@ -109,6 +111,7 @@ f:RegisterEvent('CHAT_MSG_RAID')
 f:RegisterEvent('CHAT_MSG_ADDON')
 f:RegisterEvent('ADDON_LOADED')
 f:RegisterEvent('PLAYER_REGEN_ENABLED')
+f:RegisterEvent('GROUP_ROSTER_UPDATE')
 f:SetScript('OnEvent', OnEvent)
 
 SlashCmdList['QDKP2ROLL'] = SlashCmdHandler

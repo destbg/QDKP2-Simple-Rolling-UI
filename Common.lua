@@ -80,9 +80,7 @@ function RecievedItemInfo(item)
         UIItemInfo:SetText(itemClass .. ' - ' .. itemSubclass)
     end
 
-    if not InCombatLockdown() then
-        UIConfig:Show()
-    end
+    ChangeInteractable(true)
 end
 
 function RollingStarted(msg, character)
@@ -102,8 +100,8 @@ function RollingStarted(msg, character)
 end
 
 function RollingEnded(isWin)
-    if UIConfig.IsShown(UIConfig) and not InCombatLockdown() then
-        UIConfig:Hide()
+    if UIConfig:GetAlpha() == 1 then
+        ChangeInteractable(false)
     end
 
     if isWin then
