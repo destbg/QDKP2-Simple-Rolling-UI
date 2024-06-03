@@ -1,4 +1,4 @@
-AddonVersion = '1.2'
+AddonVersion = '1.3'
 
 WaitingForItem = false
 

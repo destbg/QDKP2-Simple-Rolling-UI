@@ -6,11 +6,17 @@ local function onAddonMessage(addonName, msg, _, sender)
     end
 
     if (msg == 'version') then
-        C_ChatInfo.SendAddonMessage('QDKP2SRUI', AddonVersion, 'RAID')
-    elseif (msg:match('^[0-9.]+$')) then
-        local index = string.find(sender, '-')
-        local char = string.sub(sender, 1, index - 1)
-        print(char .. ' has version ' .. msg)
+        C_ChatInfo.SendAddonMessage('QDKP2SRUI', sender .. ' ' .. AddonVersion, 'RAID')
+    elseif (msg:match('^.+ [0-9.]+$')) then
+        local spaceIndex = string.find(msg, ' ')
+        local fullCharName = string.sub(msg, 1, spaceIndex - 1)
+        local version = string.sub(msg, spaceIndex + 1)
+
+        if fullCharName == CharacterFullName then
+            local index = string.find(sender, '-')
+            local char = string.sub(sender, 1, index - 1)
+            print(char .. ' has version ' .. version)
+        end
     end
 end
 
@@ -36,6 +42,8 @@ local function onAddonLoaded(addonName)
             losses = 0,
             passes = 0
         }
+
+        C_ChatInfo.RegisterAddonMessagePrefix('QDKP2SRUI')
 
         if UnitInRaid() and not UIConfig:IsShown() then
             UIConfig:Show()
