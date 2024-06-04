@@ -1,5 +1,7 @@
 SLASH_QDKP2ROLL1 = '/qdkp2roll'
 
+local loaded = false
+
 local function onAddonMessage(addonName, msg, _, sender)
     if addonName ~= 'QDKP2SRUI' then
         return
@@ -40,19 +42,50 @@ local function onAddonLoaded(addonName)
         QDKP2SimpleRollingUIDB = QDKP2SimpleRollingUIDB or {
             wins = 0,
             losses = 0,
-            passes = 0
+            passes = 0,
+            rollForRegex = RegexDefaults.rollFor,
+            cancelRegex = RegexDefaults.cancel,
+            winRegex = RegexDefaults.win,
+            betRecievedRegex = RegexDefaults.betRecieved,
+            increaseBy = 10
         }
+
+        if not QDKP2SimpleRollingUIDB.rollForRegex then
+            QDKP2SimpleRollingUIDB.rollForRegex = RegexDefaults.rollFor
+        end
+        if not QDKP2SimpleRollingUIDB.cancelRegex then
+            QDKP2SimpleRollingUIDB.cancelRegex = RegexDefaults.cancel
+        end
+        if not QDKP2SimpleRollingUIDB.winRegex then
+            QDKP2SimpleRollingUIDB.winRegex = RegexDefaults.win
+        end
+        if not QDKP2SimpleRollingUIDB.betRecievedRegex then
+            QDKP2SimpleRollingUIDB.betRecievedRegex = RegexDefaults.betRecieved
+        end
+        if not QDKP2SimpleRollingUIDB.increaseBy then
+            QDKP2SimpleRollingUIDB.increaseBy = 10
+        end
+
+        UIRollForEditBox:SetText(QDKP2SimpleRollingUIDB.rollForRegex)
+        UICancelEditBox:SetText(QDKP2SimpleRollingUIDB.cancelRegex)
+        UIWinEditBox:SetText(QDKP2SimpleRollingUIDB.winRegex)
+        UIBetRecievedEditBox:SetText(QDKP2SimpleRollingUIDB.betRecievedRegex)
+        UIIncreaseByEditBox:SetText(QDKP2SimpleRollingUIDB.increaseBy)
 
         C_ChatInfo.RegisterAddonMessagePrefix('QDKP2SRUI')
 
         if UnitInRaid() and not UIConfig:IsShown() then
             UIConfig:Show()
         end
+
+        loaded = true
     end
 end
 
 local function onRaidChatMessage(msg, sender)
-    if string.match(msg, '^Rolling for .+ started.') then
+    if not loaded then
+        return
+    elseif string.match(msg, QDKP2SimpleRollingUIDB.rollForRegex) then
         RollingStarted(msg, sender)
     elseif RollInfo.isRolling then
         if string.match(msg, '^[0-9]+$') then
@@ -60,11 +93,11 @@ local function onRaidChatMessage(msg, sender)
         elseif string.lower(msg) == 'pass' and sender == CharacterFullName then
             RollingEnded(false)
         elseif RollInfo.user == sender then
-            if string.match(msg, '^QDKP2> .+ Purchases .+ for [0-9]+ BCP$') then
+            if string.match(msg, QDKP2SimpleRollingUIDB.winRegex) then
                 RollingEnded(true)
-            elseif string.match(msg, '^Rolling for .+ cancelled.$') then
+            elseif string.match(msg, QDKP2SimpleRollingUIDB.cancelRegex) then
                 RollingEnded(false)
-            elseif string.match(msg, '^.+ - OK, bet received.$') then
+            elseif string.match(msg, QDKP2SimpleRollingUIDB.betRecievedRegex) then
                 BetConfirmed(msg)
             end
         end
@@ -104,7 +137,12 @@ local function SlashCmdHandler(msg, ...)
         QDKP2SimpleRollingUIDB = {
             wins = 0,
             losses = 0,
-            passes = 0
+            passes = 0,
+            rollForRegex = QDKP2SimpleRollingUIDB.rollForRegex,
+            cancelRegex = QDKP2SimpleRollingUIDB.cancelRegex,
+            winRegex = QDKP2SimpleRollingUIDB.winRegex,
+            betRecievedRegex = QDKP2SimpleRollingUIDB.betRecievedRegex,
+            increaseBy = QDKP2SimpleRollingUIDB.increaseBy
         }
     elseif msg == 'reset position' then
         UIConfig:SetPoint('RIGHT', -100, 100)

@@ -1,4 +1,11 @@
-AddonVersion = '1.3'
+AddonVersion = '1.4'
+
+RegexDefaults = {
+    rollFor = '^Rolling for (.+) started.',
+    cancel = '^Rolling for .+ cancelled.$',
+    win = '^QDKP2> .+ Purchases .+$',
+    betRecieved = '^(.+) - OK, bet received.$'
+}
 
 WaitingForItem = false
 

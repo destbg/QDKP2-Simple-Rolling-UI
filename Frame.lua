@@ -71,7 +71,8 @@ betButton:RegisterForClicks('LeftButtonUp')
 betButton:SetNormalTexture('Interface\\Minimap\\MiniMap-QuestArrow.PNG')
 betButton:SetScript('OnClick', function()
     if RollInfo.isRolling then
-        local rounded = (math.floor(RollInfo.bet / 10) * 10) + 10
+        local by = QDKP2SimpleRollingUIDB.increaseBy
+        local rounded = (math.floor(RollInfo.bet / by) * by) + by
 
         if (RollInfo.bets[CharacterFullName] ~= rounded) then
             RollInfo.bets[CharacterFullName] = rounded

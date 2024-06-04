@@ -84,9 +84,13 @@ function RecievedItemInfo(item)
 end
 
 function RollingStarted(msg, character)
-    local item = string.sub(msg, 13)
-    local index = string.find(item, ' started.')
-    item = string.sub(item, 1, index - 1)
+    local item = string.match(msg, QDKP2SimpleRollingUIDB.rollForRegex)
+
+    if (item == nil or not C_Item.DoesItemExistByID(item)) then
+        print('The regex provided for starting rolls didn\'t have a valid link group.')
+        return
+    end
+
     RollInfo.item = item
     RollInfo.user = character
     RollInfo.isRolling = true
@@ -129,8 +133,20 @@ function BetPlaced(msg, character)
 end
 
 function BetConfirmed(msg)
-    local index = string.find(msg, '-', string.find(msg, '-') + 1)
-    local char = string.sub(msg, 1, index - 2)
+    local char = string.match(msg, QDKP2SimpleRollingUIDB.betRecievedRegex)
+
+    if (char == nil) then
+        print('The regex provided for confirming bets didn\'t have a valid link group.')
+        return
+    end
+
+    local index = string.find(char, ' ')
+    char = string.sub(char, 1, index - 1)
+
+    if (RollInfo.bets[char] == nil) then
+        print('The regex provided for confirming bets didn\'t have a valid link group.')
+        return
+    end
 
     local bet = RollInfo.bets[char]
 
