@@ -3,16 +3,17 @@ local function isItemUsable(itemID)
     local itemLink              = select(2, C_Item.GetItemInfo(itemID))
     local numOwned              = C_Item.GetItemCount(itemID, true)
 
-    local alreadyKnownText      = format("^(%s)$", ITEM_SPELL_KNOWN)
-    local uniqueText            = format("^(%s)$", ITEM_UNIQUE_EQUIPPABLE)
-    local professionAllowedText = format("^%s$",
-        ITEM_MIN_SKILL:gsub("%d+%$", ""):gsub("%%s ", "([%%u%%l%%s]+) "):gsub("%(%%d%)", "%%((%%d+)%%)"))
+    local classesText           = format('^(%s)$', ITEM_CLASSES_ALLOWED:gsub('%%s', '.+'))
+    local alreadyKnownText      = format('^(%s)$', ITEM_SPELL_KNOWN)
+    local uniqueText            = format('^(%s)$', ITEM_UNIQUE_EQUIPPABLE)
+    local professionAllowedText = format('^%s$',
+        ITEM_MIN_SKILL:gsub('%d+%$', ''):gsub('%%s ', '([%%u%%l%%s]+) '):gsub('%(%%d%)', '%%((%%d+)%%)'))
 
-    UITooltipScanner:SetOwner(WorldFrame, "ANCHOR_NONE")
+    UITooltipScanner:SetOwner(WorldFrame, 'ANCHOR_NONE')
     UITooltipScanner:SetHyperlink(itemLink)
 
     for i = 1, UITooltipScanner:NumLines() do
-        local line = _G[UITooltipScanner:GetName() .. "TextLeft" .. i]
+        local line = _G[UITooltipScanner:GetName() .. 'TextLeft' .. i]
         if line and line:GetText() then
             local text = line:GetText()
             local problem = false
@@ -33,9 +34,15 @@ local function isItemUsable(itemID)
                 else
                     local r, g, b = line:GetTextColor()
                     r, g, b = r * 255, g * 255, b * 255
-                    if r > 254 and r <= 255 and g > 31 and g <= 32 and b > 31 and b <= 32 then
+                    if r > 254 and r <= 255 and g > 31 and g <= 33 and b > 31 and b <= 33 then
                         problem = true
                     end
+                end
+            elseif text:match(classesText) then
+                local r, g, b = line:GetTextColor()
+                r, g, b = r * 255, g * 255, b * 255
+                if r > 254 and r <= 255 and g > 31 and g <= 33 and b > 31 and b <= 33 then
+                    problem = true
                 end
             end
             if problem then
