@@ -7,9 +7,9 @@ UIConfig:SetBackdrop(BACKDROP_TUTORIAL_16_16)
 UIConfig:SetToplevel(true)
 UIConfig:SetClampedToScreen(true)
 UIConfig:SetAlpha(0)
-UIConfig:EnableMouse(false)
 UIConfig:SetMovable(true)
 UIConfig:RegisterForDrag('LeftButton')
+UIConfig:Hide()
 
 UIConfig:SetScript('OnDragStart', function(self)
     self:StartMoving()
@@ -65,7 +65,6 @@ UIItemInfo:SetTextColor(0.5, 0.5, 0.5, 1)
 local betButton = CreateFrame('BUTTON', nil, UIConfig, 'SecureHandlerClickTemplate');
 betButton:SetSize(28, 28)
 betButton:SetPoint('RIGHT', UIConfig, 'RIGHT', -50, 0)
-betButton:EnableMouse(false)
 
 betButton:RegisterForClicks('LeftButtonUp')
 betButton:SetNormalTexture('Interface\\Minimap\\MiniMap-QuestArrow.PNG')
@@ -85,7 +84,6 @@ end)
 local passButton = CreateFrame('BUTTON', nil, UIConfig, 'SecureHandlerClickTemplate');
 passButton:SetSize(22, 22)
 passButton:SetPoint('RIGHT', UIConfig, 'RIGHT', -20, 0)
-passButton:EnableMouse(false)
 
 passButton:RegisterForClicks('LeftButtonUp')
 passButton:SetNormalTexture('Interface\\Buttons\\UI-GroupLoot-Pass-Up.PNG')
@@ -109,10 +107,4 @@ UITooltipScanner:Hide()
 
 function ChangeInteractable(enable)
     UIConfig:SetAlpha(enable and 1 or 0)
-    UIConfig:EnableMouse(enable)
-    local children = { UIConfig:GetChildren() }
-    for _, child in ipairs(children) do
-        ---@diagnostic disable-next-line: undefined-field
-        child:EnableMouse(enable)
-    end
 end

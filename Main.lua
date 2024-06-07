@@ -30,9 +30,9 @@ local function onItemLoad(msg)
 end
 
 local function onGroupRoasterUpdate()
-    if UnitInRaid() and not UIConfig:IsShown() then
+    if UnitInRaid('player') >= 1 and not UIConfig:IsShown() then
         UIConfig:Show()
-    elseif not UnitInRaid() and UIConfig:IsShown() then
+    elseif UnitInRaid('player') == nil and UIConfig:IsShown() then
         UIConfig:Hide()
     end
 end
@@ -74,7 +74,7 @@ local function onAddonLoaded(addonName)
 
         C_ChatInfo.RegisterAddonMessagePrefix('QDKP2SRUI')
 
-        if UnitInRaid() and not UIConfig:IsShown() then
+        if UnitInRaid('player') >= 1 and not UIConfig:IsShown() then
             UIConfig:Show()
         end
 
@@ -83,7 +83,7 @@ local function onAddonLoaded(addonName)
 end
 
 local function onRaidChatMessage(msg, sender)
-    if not loaded then
+    if not loaded or msg == nil or msg == '' then
         return
     elseif string.match(msg, QDKP2SimpleRollingUIDB.rollForRegex) then
         RollingStarted(msg, sender)

@@ -63,7 +63,7 @@ function RecievedItemInfo(item)
 
     if HasValue(Wearables, itemSubclass) and ClassWearables[class] ~= itemSubclass then
         return
-    elseif HasValue(SupportedEquipables, itemSubclass) and HasValue(ClassEquipables[class], itemSubclass) then
+    elseif HasValue(SupportedEquipables, itemSubclass) and not HasValue(ClassEquipables[class], itemSubclass) then
         return
     elseif not isItemUsable(item) then
         return
