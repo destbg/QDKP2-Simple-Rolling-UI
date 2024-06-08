@@ -53,7 +53,7 @@ UIItemName:SetText('No item name')
 
 UICurrentBet = UIConfig:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
 UICurrentBet:SetPoint('TOPLEFT', betFrame, 'LEFT', 0, -7)
-UICurrentBet:SetText('No bets yet')
+UICurrentBet:SetText(NO_BIDS)
 
 UIItemInfo = UIConfig:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
 UIItemInfo:SetPoint('TOPLEFT', betFrame, 'LEFT', 0, -22)
@@ -62,7 +62,7 @@ UIItemInfo:SetFont('Fonts\\FRIZQT__.TTF', 10)
 UIItemInfo:SetTextColor(0.5, 0.5, 0.5, 1)
 
 -- Bet button
-local betButton = CreateFrame('BUTTON', nil, UIConfig, 'SecureHandlerClickTemplate');
+local betButton = CreateFrame('BUTTON', nil, UIConfig, 'SecureHandlerClickTemplate')
 betButton:SetSize(28, 28)
 betButton:SetPoint('RIGHT', UIConfig, 'RIGHT', -50, 0)
 
@@ -81,7 +81,7 @@ betButton:SetScript('OnClick', function()
 end)
 
 -- Pass button
-local passButton = CreateFrame('BUTTON', nil, UIConfig, 'SecureHandlerClickTemplate');
+local passButton = CreateFrame('BUTTON', nil, UIConfig, 'SecureHandlerClickTemplate')
 passButton:SetSize(22, 22)
 passButton:SetPoint('RIGHT', UIConfig, 'RIGHT', -20, 0)
 

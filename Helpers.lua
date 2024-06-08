@@ -8,5 +8,5 @@ function HasValue(tab, val)
     return false
 end
 
-local realmName = GetNormalizedRealmName();
+local realmName = GetNormalizedRealmName()
 CharacterFullName = GetUnitName('player', true) .. '-' .. realmName

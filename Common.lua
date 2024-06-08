@@ -132,7 +132,7 @@ function RollingEnded(isWin)
         bets = {},
         bet = 0
     }
-    UICurrentBet:SetText('No bets yet')
+    UICurrentBet:SetText(NO_BIDS)
 end
 
 function BetPlaced(msg, character)
@@ -159,6 +159,6 @@ function BetConfirmed(msg)
 
     if bet > RollInfo.bet then
         RollInfo.bet = bet
-        UICurrentBet:SetText(bet .. ' by ' .. string.sub(char, 1, string.find(char, '-') - 1))
+        UICurrentBet:SetText(bet .. ' - ' .. string.sub(char, 1, string.find(char, '-') - 1))
     end
 end
