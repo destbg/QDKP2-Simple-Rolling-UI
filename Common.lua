@@ -62,7 +62,7 @@ function RecievedItemInfo(item)
     local class = string.gsub(select(1, UnitClass('player')), ' ', '')
     local inventoryType = select(9, C_Item.GetItemInfo(item))
 
-    if HasValue(Wearables, itemSubclass) and ClassWearables[class] ~= itemSubclass and inventoryType ~= INVTYPE_CLOAK then
+    if HasValue(Wearables, itemSubclass) and ClassWearables[class] ~= itemSubclass and inventoryType ~= 'INVTYPE_CLOAK' then
         return
     elseif HasValue(SupportedEquipables, itemSubclass) and not HasValue(ClassEquipables[class], itemSubclass) then
         return
