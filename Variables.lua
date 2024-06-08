@@ -1,4 +1,4 @@
-AddonVersion = '1.7'
+AddonVersion = '1.8'
 
 RegexDefaults = {
     rollFor = '^Rolling for (.+) started.',

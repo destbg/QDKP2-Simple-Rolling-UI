@@ -2,7 +2,7 @@
 ## Title: QDKP2 Simple rolling UI
 ## Notes: A simple rolling UI for QDKP2 loot system
 ## Author: destbg
-## Version: 1.7
+## Version: 1.8
 ## SavedVariables: QDKP2SimpleRollingUIDB
 
 Variables.lua

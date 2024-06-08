@@ -60,8 +60,9 @@ function RecievedItemInfo(item)
     local itemClass = select(6, C_Item.GetItemInfo(item))
     local itemSubclass = select(7, C_Item.GetItemInfo(item))
     local class = string.gsub(select(1, UnitClass('player')), ' ', '')
+    local inventoryType = select(9, C_Item.GetItemInfo(item))
 
-    if HasValue(Wearables, itemSubclass) and ClassWearables[class] ~= itemSubclass then
+    if HasValue(Wearables, itemSubclass) and ClassWearables[class] ~= itemSubclass and inventoryType ~= INVTYPE_CLOAK then
         return
     elseif HasValue(SupportedEquipables, itemSubclass) and not HasValue(ClassEquipables[class], itemSubclass) then
         return
@@ -76,7 +77,6 @@ function RecievedItemInfo(item)
     UIItemName:SetTextColor(r, g, b, 1)
     UIItemIcon:SetTexture(C_Item.GetItemIconByID(item))
 
-    local inventoryType = select(9, C_Item.GetItemInfo(item))
     local foundType = InventoryTypeClasses[inventoryType]
 
     if foundType ~= nil then
@@ -93,7 +93,9 @@ end
 function RollingStarted(msg, character)
     local item = string.match(msg, QDKP2SimpleRollingUIDB.rollForRegex)
 
-    if (item == nil or not C_Item.DoesItemExistByID(item)) then
+    if item == RollInfo.item then
+        return
+    elseif (item == nil or not C_Item.DoesItemExistByID(item)) then
         print('The regex provided for starting rolls didn\'t have a valid link group.')
         return
     end
